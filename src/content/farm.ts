@@ -147,3 +147,36 @@ export const PHRASES = {
 
 export const DESCRIBE_TARGET = 3;
 export const PET_TARGET = 3;
+
+/* ---------- Little Farm Designer ---------- */
+
+/** Farm places the farmer shows first (hotspots on the background, scene pixels). */
+export const TOUR = [
+  { id: 'barn', box: [1236, 110, 1545, 446] as [number, number, number, number], say: 'This is the barn.' },
+  { id: 'tree', box: [380, 150, 700, 360] as [number, number, number, number], say: 'This is the tree.' },
+  { id: 'fence', box: [880, 362, 1262, 440] as [number, number, number, number], say: 'This is the fence.' },
+  { id: 'hay', box: [1548, 350, 1672, 484] as [number, number, number, number], say: 'This is the hay. The animals eat hay.' },
+];
+
+/** Where the animals stand when they come to say hello. */
+export const MEET_SPOTS: Record<AnimalKind, string> = {
+  cow: 'field-3',
+  horse: 'field-4',
+  pig: 'field-5',
+  sheep: 'field-6',
+  hen: 'field-7',
+  duck: 'field-1',
+};
+
+/** Animal sounds (spoken until recorded sounds are supplied). */
+export const SOUNDS: Record<AnimalKind, string> = {
+  cow: 'Moo!',
+  horse: 'Neigh!',
+  pig: 'Oink!',
+  sheep: 'Baa!',
+  hen: 'Cluck, cluck!',
+  duck: 'Quack!',
+};
+
+export const EXTRA_ANIMALS = 2; // 7 + 2 = 9 for counting to nine
+export const REPORT_TARGET = 3;

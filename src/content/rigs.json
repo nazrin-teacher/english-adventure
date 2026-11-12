@@ -1,0 +1,56 @@
+{
+  "farmer": {
+    "scene": {
+      "width": 1672,
+      "height": 676
+    },
+    "body": {
+      "src": "art/rigs/farmer-body.webp",
+      "box": [
+        0,
+        196,
+        377,
+        676
+      ]
+    },
+    "arm": {
+      "src": "art/rigs/farmer-arm.webp",
+      "box": [
+        319,
+        423,
+        471,
+        538
+      ],
+      "pivot": [
+        336,
+        520
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/farmer-mouth.webp",
+      "box": [
+        227,
+        439,
+        308,
+        484
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 199,
+        "cy": 402,
+        "rx": 34,
+        "ry": 31,
+        "rot": 0
+      },
+      {
+        "cx": 299,
+        "cy": 378,
+        "rx": 25,
+        "ry": 29,
+        "rot": -8
+      }
+    ],
+    "skin": "#fdbc93"
+  }
+}

@@ -297,19 +297,28 @@ export function ParentPanel({ open, onClose, gameId }: { open: boolean; onClose:
             className="parent-panel"
             role="dialog"
             aria-modal="true"
-            aria-label="Grown-ups"
+            aria-label="Ebeveynler için" lang="tr"
             initial={{ y: 40, scale: 0.95 }}
             animate={{ y: 0, scale: 1 }}
             exit={{ y: 40, scale: 0.95 }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="parent-panel__head">
-              <h2>For grown-ups</h2>
-              <RoundButton tone="orange" size="sm" label="Close" onClick={onClose}>
+              <h2>Ebeveynler için</h2>
+              <RoundButton tone="orange" size="sm" label="Kapat" onClick={onClose}>
                 <IconClose size="55%" />
               </RoundButton>
             </div>
-            {gameId && <p className="parent-panel__game">{GAME_HELP[gameId]}</p>}
+            {gameId && (
+              <dl className="parent-panel__game">
+                <dt>Ne yapacak?</dt>
+                <dd>{GAME_HELP[gameId].todo}</dd>
+                <dt>Ne söyleyecek?</dt>
+                <dd lang="en">{GAME_HELP[gameId].say}</dd>
+                <dt>Nasıl destek olabilirsiniz?</dt>
+                <dd>{GAME_HELP[gameId].help}</dd>
+              </dl>
+            )}
             <ul className="parent-panel__tips">
               {GENERAL_HELP.map((t) => (
                 <li key={t}>{t}</li>
@@ -318,26 +327,26 @@ export function ParentPanel({ open, onClose, gameId }: { open: boolean; onClose:
             <div className="parent-panel__settings">
               <label className="switch">
                 <input type="checkbox" checked={state.settings.sound} onChange={(e) => updateSettings({ sound: e.target.checked })} />
-                <span>Sound and voice</span>
+                <span>Ses ve konuşma</span>
               </label>
               <label className="switch">
                 <input type="checkbox" checked={state.settings.mic} onChange={(e) => updateSettings({ mic: e.target.checked })} />
-                <span>Show microphone button</span>
+                <span>Mikrofon düğmesini göster</span>
               </label>
-              {!audio.hasSpeechSynthesis && <p className="parent-panel__warn">This browser cannot speak English sentences aloud. The sentences are still shown on screen.</p>}
+              {!audio.hasSpeechSynthesis && <p className="parent-panel__warn">Bu tarayıcı İngilizce cümleleri sesli okuyamıyor. Cümleler ekranda yine de görünür.</p>}
               {confirmReset ? (
                 <div className="parent-panel__confirm">
-                  <span>Clear all stars on this device?</span>
+                  <span>Bu cihazdaki tüm yıldızlar silinsin mi?</span>
                   <button type="button" className="text-btn danger" onClick={() => (resetProgress(), setConfirmReset(false))}>
-                    Yes, clear
+                    Evet, sil
                   </button>
                   <button type="button" className="text-btn" onClick={() => setConfirmReset(false)}>
-                    Cancel
+                    Vazgeç
                   </button>
                 </div>
               ) : (
                 <button type="button" className="text-btn" onClick={() => setConfirmReset(true)}>
-                  Reset progress…
+                  İlerlemeyi sıfırla…
                 </button>
               )}
             </div>
@@ -349,7 +358,7 @@ export function ParentPanel({ open, onClose, gameId }: { open: boolean; onClose:
 }
 
 /** End-of-game celebration with star burst. */
-export function Celebration({ title, stars, onReplay, onHome }: { title: string; stars: number; onReplay: () => void; onHome: () => void }) {
+export function Celebration({ title, stars, onReplay, onHome, reward }: { title: string; stars: number; onReplay: () => void; onHome: () => void; reward?: string }) {
   useEffect(() => {
     playSfx('fanfare');
     void audio.say(title);
@@ -377,6 +386,12 @@ export function Celebration({ title, stars, onReplay, onHome }: { title: string;
       <motion.div className="celebrate__card" initial={{ scale: 0.6, y: 30 }} animate={{ scale: 1, y: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 16 }}>
         <h2>{title}</h2>
         <StarPill stars={stars} className="celebrate__stars" />
+        {reward && (
+          <motion.div className="celebrate__reward" initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.5, type: 'spring' }}>
+            <img src={reward} alt="" />
+            <span>New sticker!</span>
+          </motion.div>
+        )}
         <div className="celebrate__actions">
           <RoundButton tone="orange" size="lg" label="Home" onClick={onHome}>
             <IconHome size="56%" />

@@ -6,7 +6,7 @@ import { useApp } from '../hooks/useApp';
 import { audio } from '../services/audio';
 import { playSfx } from '../services/sfx';
 import { ParentButton, SoundToggle, StarPill, asset } from '../components/ui';
-import { IconLock } from '../components/icons';
+import { IconCheck, IconLock } from '../components/icons';
 import { GAME_COMPONENTS } from '../games/registry';
 import './home.css';
 
@@ -36,6 +36,7 @@ function GameCard({ game: info, index, onOpen, style, placed }: CardProps) {
   const [l, t, r, b] = cardLayout.box;
   const cw = r - l, ch = b - t;
   const [sl, st, sr, sb] = cardLayout.stars;
+  const [tl, tt, tr, tb] = cardLayout.title;
 
   useEffect(() => {
     void controls.start({ opacity: 1, y: 0, scale: 1, transition: { delay: 0.05 * index, type: 'spring', stiffness: 220, damping: 18 } });
@@ -66,6 +67,9 @@ function GameCard({ game: info, index, onOpen, style, placed }: CardProps) {
       whileTap={{ scale: 0.96 }}
     >
       <img src={asset(`art/home/card-${game.id}.webp`)} alt="" draggable={false} />
+      <span className={`home-card__title tone-${game.tone}`} style={{ left: pct(tl, cw), top: pct(tt, ch), width: pct(tr - tl, cw), minHeight: pct(tb - tt, ch) }} aria-hidden>
+        <span>{game.title}</span>
+      </span>
       <span
         className="home-card__stars"
         style={{ left: pct(sl, cw), top: pct(st, ch), width: pct(sr - sl, cw), height: pct(sb - st, ch) }}
@@ -77,8 +81,27 @@ function GameCard({ game: info, index, onOpen, style, placed }: CardProps) {
           <IconLock size="52%" />
         </span>
       )}
-      {p.completed && <span className="home-card__done" aria-hidden />}
+      {p.completed && (
+        <span className="home-card__done" aria-hidden>
+          <IconCheck size="70%" />
+        </span>
+      )}
     </motion.button>
+  );
+}
+
+/** Stickers collected by completing games (a quiet, meaningful reward). */
+function StickerShelf() {
+  const { game } = useApp();
+  const earned = GAMES.filter((g) => game(g.id).completed).length;
+  return (
+    <div className="sticker-shelf" aria-label={`${earned} of ${GAMES.length} stickers`}>
+      {GAMES.map((g) => (
+        <span key={g.id} className={`sticker-shelf__slot ${game(g.id).completed ? 'is-earned' : ''}`}>
+          {game(g.id).completed && <img src={asset(g.sticker)} alt="" />}
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -102,6 +125,7 @@ export function Home({ onOpen, onParent }: { onOpen: (id: GameId) => void; onPar
         <div className="home-stage" style={{ aspectRatio: `${SW} / ${SH}` }}>
           <img className="home-stage__bg" src={asset('art/home/home-scene.webp')} alt="" draggable={false} />
           <h1 className="sr-only">English Adventure</h1>
+          <StickerShelf />
           <div className="home-stage__corner" style={corner('settings')}>
             <ParentButton onOpen={onParent} />
           </div>
@@ -133,6 +157,7 @@ export function Home({ onOpen, onParent }: { onOpen: (id: GameId) => void; onPar
         <img className="home-narrow__logo" src={asset('art/home/logo.webp')} alt="English Adventure" draggable={false} />
         <SoundToggle />
       </header>
+      <StickerShelf />
       <div className="home-narrow__grid">
         {GAMES.map((g, i) => (
           <GameCard key={g.id} game={g} index={i} onOpen={onOpen} placed={false} />

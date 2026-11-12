@@ -1,5 +1,5 @@
 import { Component, useCallback, useEffect, useState, type ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { MotionConfig, motion } from 'framer-motion';
 import { AppProvider } from './hooks/useApp';
 import { Home } from './screens/Home';
 import { GAME_COMPONENTS } from './games/registry';
@@ -62,6 +62,7 @@ export function App() {
   const goHome = useCallback(() => go({ name: 'home' }), [go]);
 
   return (
+    <MotionConfig reducedMotion="user">
     <AppProvider>
       <ErrorBoundary onReset={goHome}>
         {/* Keyed fade-in only — no exit animation, so a screen can never get stuck half-way. */}
@@ -72,5 +73,6 @@ export function App() {
         <ParentPanel open={parentOpen} onClose={() => setParentOpen(false)} gameId={screen.name === 'game' ? screen.id : undefined} />
       </ErrorBoundary>
     </AppProvider>
+    </MotionConfig>
   );
 }

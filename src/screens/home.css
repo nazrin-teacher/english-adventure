@@ -120,3 +120,109 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* live, renamable card titles (cover the titles painted in the picture) */
+.home-card {
+  container-type: inline-size;
+}
+.home-card__title {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  padding: 2% 7%;
+  border-radius: 999px;
+  border: max(2px, 1.2cqw) solid #fff;
+  background: linear-gradient(180deg, var(--c1), var(--c2));
+  box-shadow: 0 1.2cqw 0 rgba(0, 0, 0, 0.14), 0 2cqw 4cqw rgba(30, 10, 60, 0.3), inset 0 -1.6cqw 0 rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.home-card__title span {
+  font-weight: 700;
+  font-size: 7cqw;
+  line-height: 1;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0.5cqw 0 rgba(0, 0, 0, 0.25);
+  -webkit-text-stroke: 0.3cqw rgba(0, 0, 0, 0.12);
+}
+.home-card__title.tone-blue {
+  --c1: #4ea2ff;
+  --c2: #1758c8;
+}
+.home-card__title.tone-pink {
+  --c1: #ff6fb8;
+  --c2: #d81f78;
+}
+.home-card__title.tone-green {
+  --c1: #46c45a;
+  --c2: #1b8a3a;
+}
+.home-card__title.tone-purple {
+  --c1: #b26bff;
+  --c2: #6d27d6;
+}
+.home-card__title.tone-orange {
+  --c1: #ffa53a;
+  --c2: #ea6a0c;
+}
+.home-card__title.tone-red {
+  --c1: #ff5a50;
+  --c2: #c8221d;
+}
+.home-card__done {
+  position: absolute;
+  right: 3%;
+  top: 4%;
+  width: 14%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(180deg, #7ee04a, #2f9e1e);
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* sticker shelf: one sticker per completed game */
+.sticker-shelf {
+  display: flex;
+  justify-content: center;
+  gap: 0.6%;
+}
+.home-stage .sticker-shelf {
+  position: absolute;
+  left: 50%;
+  bottom: 0.4%;
+  translate: -50% 0;
+  width: 44%;
+  padding: 0.3% 0.8%;
+  border-radius: 999px;
+  background: rgba(255, 250, 235, 0.82);
+  box-shadow: var(--shadow-sm);
+}
+.home--narrow .sticker-shelf {
+  margin: 4px auto 12px;
+  max-width: 460px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 250, 235, 0.85);
+}
+.sticker-shelf__slot {
+  flex: 1;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px dashed #d9c6a4;
+  max-width: 44px;
+}
+.sticker-shelf__slot.is-earned {
+  border: 2px solid #ffd23f;
+  background: #fff;
+}
+.sticker-shelf__slot img {
+  max-width: 82%;
+  max-height: 82%;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
+}

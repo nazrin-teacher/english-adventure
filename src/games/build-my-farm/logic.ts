@@ -88,3 +88,40 @@ export function describePiece(farm: Farm, uid: string): string {
 }
 
 export const pickScenarioIndex = (plays: number, count: number) => ((Math.max(1, plays) - 1) % count + count) % count;
+
+/* ---------- free building (Little Farm Designer) ---------- */
+
+/** Move an animal to another free spot (no-op if the spot is taken). */
+export function movePiece(farm: Farm, uid: string, toSpot: string): Farm {
+  const piece = Object.values(farm).find((p) => p.uid === uid);
+  if (!piece || farm[toSpot]) return farm;
+  const next = { ...farm };
+  delete next[piece.spotId];
+  next[toSpot] = { ...piece, spotId: toSpot };
+  return next;
+}
+
+/** Take an animal off the farm. */
+export function removePiece(farm: Farm, uid: string): Farm {
+  const next = { ...farm };
+  for (const [spot, p] of Object.entries(next)) if (p.uid === uid) delete next[spot];
+  return next;
+}
+
+/** "It's under the tree." — a true second sentence about where an animal is. */
+export function positionSentence(farm: Farm, uid: string): string {
+  const piece = Object.values(farm).find((p) => p.uid === uid);
+  if (!piece) return '';
+  const spot = spotById(piece.spotId);
+  if (spot.zones.includes('barn')) return "It's in the barn.";
+  if (spot.zones.includes('fence')) return "It's on the fence.";
+  if (spot.zones.includes('tree')) return "It's under the tree.";
+  const neighbour = neighboursOf(spot.id)
+    .map((n) => farm[n.id])
+    .find((p) => p && p.kind !== piece.kind);
+  if (neighbour) return `It's next to the ${ANIMALS[neighbour.kind].word}.`;
+  if (spot.zones.includes('barnSide')) return "It's next to the barn.";
+  return `It's ${ANIMALS[piece.kind].colour}.`;
+}
+
+export const freeSpots = (farm: Farm) => SPOTS.filter((s) => !farm[s.id]).map((s) => s.id);

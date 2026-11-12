@@ -37,6 +37,18 @@ const STARS = {
   'i-can-see': [24, 168, 142, 210],
   'build-my-farm': [24, 168, 142, 210],
 };
+// Baked-in title pill on each card (relative to the card) — covered by a live, renamable title.
+const TITLES = {
+  'school-objects-match': [0, 0, 244, 84],
+  'its-a': [16, 2, 230, 78],
+  'school-object-hunt': [8, 0, 234, 82],
+  'family-memory': [26, 0, 254, 90],
+  'meet-my-family': [16, 2, 224, 96],
+  'puppet-studio': [6, 0, 250, 94],
+  'which-animal': [6, 2, 230, 94],
+  'i-can-see': [12, 4, 264, 86],
+  'build-my-farm': [2, 0, 206, 98],
+};
 const LOGO = [606, 0, 1066, 168];
 const BUTTONS = { settings: [24, 14, 102, 92], sound: [1570, 14, 1650, 92] };
 
@@ -49,7 +61,7 @@ for (const [id, box] of Object.entries(CARDS)) await crop(box).webp({ quality: 9
 
 const layout = {
   scene: { width: 1672, height: 941 },
-  cards: Object.fromEntries(Object.entries(CARDS).map(([id, box]) => [id, { box, stars: STARS[id] }])),
+  cards: Object.fromEntries(Object.entries(CARDS).map(([id, box]) => [id, { box, stars: STARS[id], title: TITLES[id] }])),
   logo: LOGO,
   buttons: BUTTONS,
 };

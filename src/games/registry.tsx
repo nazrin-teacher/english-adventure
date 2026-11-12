@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 import type { GameId } from '../content/games';
-import { BuildMyFarm } from './build-my-farm/BuildMyFarm';
+import { FarmDesigner } from './farm-designer/FarmDesigner';
 import { WhichAnimal } from './which-animal/WhichAnimal';
 import { ICanSee } from './i-can-see/ICanSee';
 import { SchoolMatch } from './school-match/SchoolMatch';
@@ -22,5 +22,5 @@ export const GAME_COMPONENTS: Partial<Record<GameId, ComponentType<GameProps>>> 
   'puppet-studio': PuppetStudio,
   'which-animal': WhichAnimal,
   'i-can-see': ICanSee,
-  'build-my-farm': BuildMyFarm,
+  'build-my-farm': FarmDesigner,
 };

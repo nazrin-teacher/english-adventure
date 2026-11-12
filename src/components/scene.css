@@ -816,3 +816,54 @@
     display: none;
   }
 }
+
+/* ----- learning-stage trail ----- */
+.stage-trail {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.3em 0.6em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fffaf0, #ffeccc);
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-sm);
+  font-size: max(11px, 1.1cqw);
+}
+.stage-trail__step {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.stage-trail__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  color: #b8a88f;
+  background: #f3e8d4;
+  border: 2px solid #fff;
+}
+.stage-trail__step.is-now .stage-trail__icon {
+  color: #fff;
+  background: linear-gradient(180deg, #b97bff, #7a2fe0);
+  box-shadow: 0 0 0 3px #fff3b0, 0 0 12px rgba(255, 197, 49, 0.9);
+}
+.stage-trail__step.is-done .stage-trail__icon {
+  color: #fff;
+  background: linear-gradient(180deg, #7ee04a, #2f9e1e);
+}
+.stage-trail__bar {
+  width: 2.6em;
+  height: 0.55em;
+  border-radius: 999px;
+  background: #eadcc2;
+  overflow: hidden;
+}
+.stage-trail__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ffd23f, #ff9a2e);
+  transition: width 0.5s ease;
+}

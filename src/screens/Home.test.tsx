@@ -32,7 +32,7 @@ describe('Home screen', () => {
     expect(cards).toHaveLength(9);
     for (const g of GAMES) expect(screen.getByRole('button', { name: new RegExp(g.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /Build My Farm/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Little Farm Designer/ }));
     expect(onOpen).toHaveBeenCalledWith('build-my-farm');
 
     fireEvent.click(screen.getByRole('button', { name: /Which Animal Is It/ }));

@@ -343,3 +343,28 @@
 .pill-btn__text {
   white-space: nowrap;
 }
+.parent-panel__game dt {
+  margin-top: 6px;
+  font-weight: 700;
+  color: var(--purple-dark);
+  font-size: var(--fs-sm);
+}
+.parent-panel__game dd {
+  margin: 2px 0 4px;
+}
+.celebrate__reward {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 6px 8px;
+  border-radius: 999px;
+  background: #fff;
+  border: 3px dashed #ffd23f;
+  font-weight: 700;
+  color: var(--purple-dark);
+  font-size: var(--fs-md);
+}
+.celebrate__reward img {
+  height: 56px;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.2));
+}

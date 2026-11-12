@@ -135,3 +135,30 @@ describe('scenario rotation', () => {
     expect([1, 2, 3, 4].map((p) => pickScenarioIndex(p, 2))).toEqual([0, 1, 0, 1]);
   });
 });
+
+import { movePiece, removePiece, positionSentence, freeSpots } from './logic';
+
+describe('free building', () => {
+  it('moves only to free spots and removes animals', () => {
+    let farm = placePiece({}, { uid: 'c', kind: 'cow', spotId: 'field-1' });
+    farm = placePiece(farm, { uid: 'd', kind: 'duck', spotId: 'field-2' });
+    expect(movePiece(farm, 'c', 'field-2')).toBe(farm); // taken → unchanged
+    const moved = movePiece(farm, 'c', 'barn');
+    expect(moved.barn?.uid).toBe('c');
+    expect(moved['field-1']).toBeUndefined();
+    expect(Object.keys(removePiece(moved, 'd'))).toEqual(['barn']);
+    expect(freeSpots(moved)).not.toContain('barn');
+  });
+
+  it('describes positions truthfully', () => {
+    let farm = placePiece({}, { uid: 'c', kind: 'cow', spotId: 'barn-side' });
+    farm = placePiece(farm, { uid: 'd', kind: 'duck', spotId: 'field-2' });
+    farm = placePiece(farm, { uid: 's', kind: 'sheep', spotId: 'tree-left' });
+    farm = placePiece(farm, { uid: 'h', kind: 'hen', spotId: 'fence-1' });
+    farm = placePiece(farm, { uid: 'p', kind: 'pig', spotId: 'field-7' });
+    expect(positionSentence(farm, 'd')).toBe("It's next to the cow.");
+    expect(positionSentence(farm, 's')).toBe("It's under the tree.");
+    expect(positionSentence(farm, 'h')).toBe("It's on the fence.");
+    expect(positionSentence(farm, 'p')).toBe("It's pink.");
+  });
+});

@@ -1,23 +1,64 @@
 import type { GameId } from './games';
 
-/** Short guidance for grown-ups, shown only inside the parent panel. */
+/**
+ * Short guidance for grown-ups, in Turkish. Shown ONLY inside the grown-ups
+ * panel (press-and-hold); child-facing screens stay English-only.
+ */
 export const GENERAL_HELP = [
-  'Every instruction is spoken — your child does not need to read.',
-  'Tap a speaker button to hear a sentence again, as often as you like.',
-  'Encourage your child to say each sentence out loud. Mistakes are fine: just try again.',
-  'The microphone is optional. It only shows a live “voice meter”; nothing is recorded, stored or sent.',
-  'Progress is saved on this device only. No names, emails or accounts.',
+  'Her yönerge İngilizce olarak sesli verilir; çocuğunuzun okuma bilmesi gerekmez.',
+  'Hoparlör düğmesiyle cümleyi istediği kadar tekrar dinleyebilir.',
+  'Cümleleri birlikte yüksek sesle söyleyin. Hata yapmak sorun değil, tekrar denenebilir.',
+  'Mikrofon isteğe bağlıdır ve yalnızca ses çubuğunu gösterir; ses kaydedilmez, saklanmaz, gönderilmez. Telaffuz puanlanmaz.',
+  'İlerleme yalnızca bu cihazda saklanır; ad, e-posta veya hesap gerekmez.',
 ];
 
-export const GAME_HELP: Record<GameId, string> = {
-  'school-objects-match': 'Listen to the instruction and tap the right school object.',
-  'its-a': 'Listen, say the sentence together, then tap “I said it!”.',
-  'school-object-hunt': 'Find the object at home, come back and say its name in English.',
-  'family-memory': 'Turn the cards, find matching family members and say the word.',
-  'meet-my-family': 'Choose a family member, listen and repeat the sentence.',
-  'puppet-studio': 'Make a family puppet, then introduce it in English.',
-  'which-animal': 'Listen to the sound or clue and tap the right animal.',
-  'i-can-see': 'Choose an animal and describe it: “I can see a …”.',
-  'build-my-farm':
-    'Listen to each mission and drag the animal to the right place — or tap the animal, then tap the place. Then count the animals, describe the farm and feed the animals together.',
+export type GameHelp = { todo: string; say: string; help: string };
+
+export const GAME_HELP: Record<GameId, GameHelp> = {
+  'school-objects-match': {
+    todo: 'Karakterin söylediği okul eşyasını bulup dokunur.',
+    say: 'pencil, book, pen, chair… / "Find the pencil."',
+    help: 'Eşyaların adını evdeki gerçek eşyaları göstererek birlikte söyleyin.',
+  },
+  'its-a': {
+    todo: 'Eşyayı görür, cümleyi dinler ve tekrar eder.',
+    say: '"It\'s a pencil." "It\'s an eraser."',
+    help: 'Cümleyi birlikte söyleyin, sonra çocuğunuz "I said it!" düğmesine bassın.',
+  },
+  'school-object-hunt': {
+    todo: 'Evde istenen eşyayı bulur, geri gelir ve ne bulduğunu söyler.',
+    say: '"Find a book." → "I found a book!"',
+    help: 'Aramaya eşlik edin; eşyayı bulduğunda onaylayıp "I found it!" düğmesine basın.',
+  },
+  'family-memory': {
+    todo: 'Kartları çevirip aynı aile üyelerini eşleştirir.',
+    say: 'mum, dad, grandma, grandpa, sister, brother',
+    help: 'Açılan her kartın kelimesini birlikte tekrar edin.',
+  },
+  'meet-my-family': {
+    todo: 'Aile üyelerine dokunur, cümleleri dinler ve tekrar eder.',
+    say: '"She\'s my mum." "He\'s my dad." "She\'s got curly hair."',
+    help: 'Kendi ailenizden örnekler verin: "She\'s my grandma!"',
+  },
+  'puppet-studio': {
+    todo: 'Kukla seçer, saç, kıyafet ve yüz seçip kuklasını sahnede tanıtır.',
+    say: '"This is my mum." "She\'s got curly hair."',
+    help: 'Kukla sayfasını yazdırıp kesebilir, birlikte kukla gösterisi yapabilirsiniz.',
+  },
+  'which-animal': {
+    todo: 'Hayvan sesini, gölgesini veya ipucunu dinleyip doğru hayvana dokunur.',
+    say: 'cow, horse, pig, hen, sheep, duck',
+    help: 'Hayvan seslerini birlikte taklit edin; hayvanın adını İngilizce söyleyin.',
+  },
+  'i-can-see': {
+    todo: 'Çiftlikte gördüğü hayvanları İngilizce cümlelerle anlatır.',
+    say: '"I can see a horse." "It\'s brown." "It\'s got four legs."',
+    help: '"What can you see?" diye sorun; cevabı birlikte kurun.',
+  },
+  'build-my-farm': {
+    todo:
+      'Önce çiftliği keşfeder, sonra hayvanları söylenen yere yerleştirir (sürükleyerek veya önce hayvana sonra yere dokunarak), hayvanları sayar ve en sonda kendi çiftliğini tasarlayıp anlatır.',
+    say: '"Put the duck next to the cow." "I can see nine animals." "It\'s under the tree." "I\'m kind to animals."',
+    help: 'next to = yanında, under = altında, on = üstünde, in = içinde. Sayarken parmakla birlikte sayın; çocuğunuzun kendi çiftliğini anlatmasına zaman tanıyın.',
+  },
 };

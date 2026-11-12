@@ -39,6 +39,7 @@ They are turned into separate, movable assets by the scripts in `scripts/assets/
 | `scenes.mjs` | Eight clean game backgrounds — baked-in text, buttons and the objects that became sprites removed with a local LaMa inpainting model |
 | `farm-background.mjs`, `farm-icons.mjs` | Build My Farm scene and its tree / barn / fence picture cues |
 | `home-assets.mjs` | Home scene, nine separate card images, card/star positions |
+| `rig-farmer.mjs` | Animated farmer: body, pointing forearm and mouth layers + eye/skin data (`src/content/rigs.json`); removes him from the farm background |
 | `clean-sources.mjs`, `fix-edges.mjs` | Small touch-ups (sheep wool marks, golden frame edge on one top) |
 
 The tools (`onnxruntime-node`, LaMa model, `@imgly/background-removal-node`) are only
