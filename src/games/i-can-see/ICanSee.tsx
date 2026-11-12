@@ -1,180 +1,260 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type PointerEvent as RPointerEvent } from 'react';
 import { ANIMALS, ANIMAL_ORDER, type AnimalKind } from '../../content/farm';
-import { COLOUR_SENTENCE, LEGS_SENTENCE, SEE_LAYOUT, WHERE_SENTENCES, seeSentence } from '../../content/iCanSee';
+import { COLOUR_SENTENCE, SAFARI_MISSIONS, SEE_LAYOUT, describe2, seeSentence } from '../../content/iCanSee';
 import { spriteBox, standAt } from '../../content/sprites';
 import { audio } from '../../services/audio';
 import { playSfx } from '../../services/sfx';
-import { Celebration, ListenButton, asset } from '../../components/ui';
+import { Celebration, ListenButton, PillButton, asset } from '../../components/ui';
+import { IconCheck } from '../../components/icons';
 import { SpeakSteps } from '../../components/SpeakSteps';
-import { GameScreen, Sprite, at, shuffle, useGameStars, useToast } from '../../components/scene';
+import { CharacterRig } from '../../components/CharacterRig';
+import { GameScreen, SH, SW, Sprite, at, boxCentre, praise, shuffle, useGameStars, useGuide, useToast , pace } from '../../components/scene';
+import './safari.css';
 
 const GAME_ID = 'i-can-see';
-type Phase = 'see' | 'describe' | 'where' | 'done';
+type Phase = 'discover' | 'challenge' | 'report' | 'review' | 'done';
+const LENS_R = 190; // binocular lens radius, scene px
+const REPORT_TARGET = 3;
 
 const boxOf = (k: AnimalKind) => {
   const [x, y, h] = SEE_LAYOUT[k];
   return standAt(spriteBox(k), x, y, h);
 };
 
+/**
+ * Farm Safari: look through magic binoculars. Discover the animals, solve
+ * observation missions (colour, size, legs, next to, on), then make a spoken
+ * farm report about the animals you choose.
+ */
 export function ICanSee({ onHome, onParent }: { onHome: () => void; onParent: () => void }) {
   const { stars, award, replay, round, playIndex } = useGameStars(GAME_ID);
-  const [phase, setPhase] = useState<Phase>('see');
-  const [seen, setSeen] = useState<AnimalKind[]>([]);
-  const [described, setDescribed] = useState<AnimalKind[]>([]);
-  const [whereIndex, setWhereIndex] = useState(0);
-  const [talk, setTalk] = useState<{ kind: AnimalKind; sentences: string[] } | null>(null);
+  const missions = useMemo(() => shuffle(SAFARI_MISSIONS, playIndex).slice(0, 5), [playIndex]);
+  const [phase, setPhase] = useState<Phase>('discover');
+  const [lens, setLens] = useState<[number, number]>([1000, 470]);
+  const [spotted, setSpotted] = useState<AnimalKind[]>([]);
+  const [index, setIndex] = useState(0);
+  const [misses, setMisses] = useState(0);
   const [bounce, setBounce] = useState<AnimalKind | null>(null);
-  const [ribbon, setRibbon] = useState('Look at the farm!');
+  const [wrong, setWrong] = useState<AnimalKind | null>(null);
+  const [report, setReport] = useState<AnimalKind[]>([]);
+  const [talk, setTalk] = useState<AnimalKind | null>(null);
+  const [busy, setBusy] = useState(false);
+  const guide = useGuide();
   const toast = useToast();
-
-  const describeTargets = useMemo(() => {
-    const rest = shuffle(ANIMAL_ORDER.filter((a) => a !== 'horse'), playIndex);
-    return playIndex % 2 ? ['horse' as AnimalKind, ...rest.slice(0, 2)] : rest.slice(0, 3);
-  }, [playIndex]);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
 
   useEffect(() => {
-    setPhase('see');
-    setSeen([]);
-    setDescribed([]);
-    setWhereIndex(0);
-    setTalk(null);
+    setPhase('discover');
+    setSpotted([]);
+    setIndex(0);
+    setReport([]);
   }, [round]);
 
-  const target = phase === 'describe' ? describeTargets[described.length] : undefined;
-  const where = phase === 'where' ? WHERE_SENTENCES[whereIndex] : undefined;
-
+  const m = phase === 'challenge' ? missions[index] : undefined;
   const prompt =
-    phase === 'see'
-      ? 'What can you see? Tap an animal.'
-      : phase === 'describe'
-        ? 'Tap the shining animal. Tell me about it.'
-        : phase === 'where'
-          ? `Where is the ${where?.a}? Tap it.`
-          : '';
+    phase === 'discover'
+      ? 'Move the binoculars. What can you see?'
+      : m
+        ? m.say
+        : phase === 'report'
+          ? 'Make a farm report! Choose three animals.'
+          : phase === 'review'
+            ? 'Listen to your farm report!'
+            : '';
 
   useEffect(() => {
     if (!prompt || talk) return;
-    const t = window.setTimeout(() => void audio.say(prompt), 450);
+    const t = window.setTimeout(() => void audio.say(prompt), pace(420));
     return () => window.clearTimeout(t);
   }, [prompt, talk]);
 
-  const tap = (k: AnimalKind) => {
-    if (talk) return;
-    setBounce(k);
-    window.setTimeout(() => setBounce(null), 500);
-    if (phase === 'see') {
-      setTalk({ kind: k, sentences: [seeSentence(k)] });
+  const inLens = (k: AnimalKind) => {
+    const [cx, cy] = boxCentre(boxOf(k));
+    return Math.hypot(cx - lens[0], cy - lens[1]) < LENS_R * 0.8;
+  };
+
+  // Discover: announce animals as they come into view
+  useEffect(() => {
+    if (phase !== 'discover') return;
+    const seen = ANIMAL_ORDER.find((k) => inLens(k) && !spotted.includes(k));
+    if (!seen) return;
+    playSfx('sparkle');
+    setBounce(seen);
+    window.setTimeout(() => setBounce(null), pace(600));
+    void audio.say(`I can see a ${seen}!`);
+    const next = [...spotted, seen];
+    setSpotted(next);
+    guide.setPointAt(boxCentre(boxOf(seen)));
+    if (next.length === ANIMAL_ORDER.length) {
+      window.setTimeout(() => {
+        award(1);
+        guide.react('cheer');
+        toast.show('You can see all the animals!');
+        setPhase('challenge');
+      }, 1600);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lens, phase]);
+
+  const toScene = (e: { clientX: number; clientY: number }): [number, number] => {
+    const r = stageRef.current!.getBoundingClientRect();
+    return [((e.clientX - r.left) / r.width) * SW, ((e.clientY - r.top) / r.height) * SH];
+  };
+  const onDown = (e: RPointerEvent) => {
+    if (phase === 'done' || talk) return;
+    dragging.current = true;
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+    setLens(toScene(e));
+  };
+  const onMove = (e: RPointerEvent) => dragging.current && setLens(toScene(e));
+  const onUp = (e: RPointerEvent) => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    // a tap through the lens on an animal counts as choosing it
+    const [x, y] = toScene(e);
+    const hit = ANIMAL_ORDER.find((k) => {
+      const b = boxOf(k);
+      return x >= b[0] && x <= b[2] && y >= b[1] && y <= b[3];
+    });
+    if (hit) choose(hit);
+  };
+
+  const choose = async (k: AnimalKind) => {
+    if (busy) return;
+    setLens(boxCentre(boxOf(k)));
+    guide.setPointAt(boxCentre(boxOf(k)));
+    if (phase === 'discover') return;
+    if (phase === 'report') {
+      if (report.includes(k)) return;
+      setTalk(k);
       return;
     }
-    if (phase === 'describe') {
-      if (k !== target) {
-        playSfx('soft-no');
-        void audio.say(`That's the ${k}. Find the shining animal!`);
-        return;
-      }
-      setTalk({ kind: k, sentences: [seeSentence(k), COLOUR_SENTENCE[k], LEGS_SENTENCE[k]] });
-      return;
-    }
-    if (phase === 'where' && where) {
-      if (k !== where.a) {
-        playSfx('soft-no');
-        void audio.say(`That's the ${k}. Where is the ${where.a}?`);
-        return;
-      }
-      setTalk({ kind: k, sentences: [where.text] });
+    if (!m) return;
+    if (k === m.answer) {
+      setBusy(true);
+      setBounce(k);
+      guide.react('cheer');
+      const p = praise();
+      toast.show(p);
+      playSfx('success');
+      await audio.say(`${p} I can see a ${k}.`);
+      setBounce(null);
+      setMisses(0);
+      setBusy(false);
+      if (index + 1 >= missions.length) {
+        award(2);
+        setPhase('report');
+      } else setIndex(index + 1);
+    } else {
+      setWrong(k);
+      window.setTimeout(() => setWrong(null), pace(600));
+      setMisses((n) => n + 1);
+      guide.react('encourage');
+      playSfx('soft-no');
+      toast.show('Look again!', false);
+      await audio.say(`That's the ${k}. ${m.say}`);
     }
   };
 
   const finishTalk = () => {
-    if (!talk) return;
-    const k = talk.kind;
+    const k = talk!;
     setTalk(null);
-    playSfx('success');
-    if (phase === 'see') {
-      const next = seen.includes(k) ? seen : [...seen, k];
-      setSeen(next);
-      if (next.length >= ANIMAL_ORDER.length) {
-        award(1);
-        toast.show('Great! You can see all the animals!');
-        setPhase('describe');
-      } else toast.show(`Great! You can see the ${k}!`);
-      setRibbon(`Great! You can see the ${k}!`);
-    } else if (phase === 'describe') {
-      const next = [...described, k];
-      setDescribed(next);
-      toast.show('Super!');
-      setRibbon(`Super! You told me about the ${k}!`);
-      if (next.length >= describeTargets.length) {
-        award(2);
-        setPhase('where');
-      }
-    } else if (phase === 'where') {
-      toast.show('Well done!');
-      setRibbon('Well done!');
-      if (whereIndex + 1 >= WHERE_SENTENCES.length) {
-        award(3, true);
-        setPhase('done');
-      } else setWhereIndex(whereIndex + 1);
+    const next = [...report, k];
+    setReport(next);
+    guide.react('cheer');
+    if (next.length >= REPORT_TARGET) setPhase('review');
+  };
+
+  const sentencesFor = (k: AnimalKind) => [seeSentence(k), COLOUR_SENTENCE[k], describe2(k)];
+  const playReport = async () => {
+    for (const k of report) {
+      setLens(boxCentre(boxOf(k)));
+      setBounce(k);
+      for (const s of sentencesFor(k)) await audio.say(s);
+      setBounce(null);
     }
   };
 
-  const stateOf = (k: AnimalKind) => {
-    if (bounce === k) return 'right' as const;
-    if (phase === 'see' && seen.includes(k)) return 'done' as const;
-    if (phase === 'describe' && k === target) return 'glow' as const;
-    if (phase === 'where' && where && (k === where.a || k === where.b)) return 'glow' as const;
-    return undefined;
-  };
-
-  // bottom sentence cards (like the picture): what we are practising now
-  const cards: { pic: AnimalKind; text: string; done: boolean }[] =
-    phase === 'describe' && target
-      ? [
-          { pic: target, text: seeSentence(target), done: false },
-          { pic: target, text: COLOUR_SENTENCE[target], done: false },
-          { pic: target, text: LEGS_SENTENCE[target], done: false },
-        ]
-      : phase === 'where'
-        ? WHERE_SENTENCES.map((w, i) => ({ pic: w.a, text: w.text, done: i < whereIndex }))
-        : phase === 'see'
-          ? ANIMAL_ORDER.filter((a) => seen.includes(a)).slice(-3).map((a) => ({ pic: a, text: seeSentence(a), done: true }))
-          : [];
+  const stage = phase === 'discover' ? 0 : phase === 'challenge' ? 1 : phase === 'done' ? 3 : 2;
+  const progress = phase === 'discover' ? spotted.length / 6 : phase === 'challenge' ? index / missions.length : report.length / REPORT_TARGET;
+  const lensOn = phase === 'discover' || phase === 'challenge';
 
   return (
-    <GameScreen
-      scene="i-can-see"
-      onHome={onHome}
-      onParent={onParent}
-      stars={stars}
-      prompt={phase === 'done' ? undefined : prompt}
-      tag={phase === 'see' ? `${seen.length} / ${ANIMAL_ORDER.length}` : phase === 'describe' ? `${described.length} / ${describeTargets.length}` : phase === 'where' ? 'Where?' : undefined}
-    >
+    <GameScreen scene="i-can-see" onHome={onHome} onParent={onParent} stars={stars} stage={stage} stageProgress={progress} prompt={phase === 'done' ? undefined : prompt} tag={m ? `${index + 1} / ${missions.length}` : undefined}>
+      <div ref={stageRef} className="safari-field" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={() => (dragging.current = false)} />
       {ANIMAL_ORDER.map((k) => (
-        <Sprite key={k} src={ANIMALS[k].image} box={boxOf(k)} label={`${k} on the farm`} onClick={() => tap(k)} state={stateOf(k)} />
+        <Sprite
+          key={k}
+          src={ANIMALS[k].image}
+          box={boxOf(k)}
+          label={`${k} on the farm`}
+          onClick={() => void choose(k)}
+          className="is-alive"
+          state={bounce === k ? 'right' : wrong === k ? 'wrong' : m && misses >= 2 && m.answer === k ? 'glow' : report.includes(k) ? 'done' : undefined}
+        />
       ))}
 
-      {/* three sentence cards along the bottom, like the picture (empty ones wait to be filled) */}
-      <div className="sentence-cards" style={at([40, 650, 1640, 790])}>
-        {[0, 1, 2].map((i) => {
-          const c = cards[i];
-          return c ? (
-            <div key={c.text} className={`sentence-card ${c.done ? 'is-done' : ''}`}>
-              <img src={asset(ANIMALS[c.pic].image)} alt="" />
-              <span>{c.text}</span>
-              <ListenButton text={c.text} size="sm" label={`Listen: ${c.text}`} />
+      {/* binoculars: everything outside the two lenses is dimmed */}
+      {lensOn && (
+        <>
+          <div
+            className="binoculars"
+            aria-hidden
+            style={{ '--lx': `${(lens[0] / SW) * 100}%`, '--ly': `${(lens[1] / SH) * 100}%`, '--r': `${(LENS_R / SW) * 100}cqw` } as Record<string, string>}
+          />
+          {[-0.62, 0.62].map((dx) => (
+            <span
+              key={dx}
+              className="binoculars-rim"
+              aria-hidden
+              style={at([lens[0] + dx * LENS_R - LENS_R, lens[1] - LENS_R, lens[0] + dx * LENS_R + LENS_R, lens[1] + LENS_R])}
+            />
+          ))}
+        </>
+      )}
+
+      <CharacterRig name="safari-boy" mood={guide.mood} pointAt={guide.pointAt} />
+
+      {/* seen / report cards along the bottom */}
+      <div className="sentence-cards" style={at([40, 700, 1640, 830])}>
+        {(phase === 'report' || phase === 'review' || phase === 'done'
+          ? [0, 1, 2].map((i) => report[i])
+          : ANIMAL_ORDER.map((k) => (phase === 'discover' ? (spotted.includes(k) ? k : undefined) : k))
+        ).map((k, i) =>
+          k ? (
+            <div key={`${k}-${i}`} className={`sentence-card ${report.includes(k) ? 'is-done' : ''}`}>
+              <img src={asset(ANIMALS[k].image)} alt="" />
+              {(phase === 'report' || phase === 'review' || phase === 'done') && <span>{seeSentence(k)}</span>}
+              {(phase === 'report' || phase === 'review') && <ListenButton text={sentencesFor(k).join(' ')} size="sm" label={`Listen: ${seeSentence(k)}`} />}
             </div>
           ) : (
             <div key={`empty-${i}`} className="sentence-card is-empty" aria-hidden />
-          );
-        })}
-      </div>
-      <div className="ribbon" style={at([470, 800, 1220, 915])} aria-live="polite">
-        {ribbon}
+          ),
+        )}
       </div>
 
-      {talk && <SpeakSteps key={talk.kind + talk.sentences[0]} sentences={talk.sentences} picture={<img src={asset(ANIMALS[talk.kind].image)} alt="" />} onDone={finishTalk} />}
+      {phase === 'review' && (
+        <div className="stage-actions is-big" style={at([520, 520, 1420, 680])}>
+          <PillButton tone="blue" onClick={() => void playReport()}>
+            Play my report
+          </PillButton>
+          <PillButton
+            tone="green"
+            icon={<IconCheck size="100%" />}
+            onClick={() => {
+              award(3, true);
+              setPhase('done');
+            }}
+          >
+            I said it!
+          </PillButton>
+        </div>
+      )}
+
+      {talk && <SpeakSteps key={talk} sentences={sentencesFor(talk)} picture={<img src={asset(ANIMALS[talk].image)} alt="" />} onDone={finishTalk} />}
       {toast.node}
-      {phase === 'done' && <Celebration title="Great! You can see the farm!" stars={stars} onHome={onHome} onReplay={replay} />}
+      {phase === 'done' && <Celebration title="Great farm report!" stars={stars} onHome={onHome} onReplay={replay} reward={asset('art/animals/duck.webp')} />}
     </GameScreen>
   );
 }

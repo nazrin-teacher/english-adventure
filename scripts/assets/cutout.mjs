@@ -51,6 +51,20 @@ export const JOBS = {
   'face-happy': [5, 1285, 490, 1392, 595, 'public/art/puppet/face-happy.webp'],
   'face-laugh': [5, 1395, 490, 1500, 595, 'public/art/puppet/face-laugh.webp'],
   'face-smile': [5, 1500, 490, 1605, 595, 'public/art/puppet/face-smile.webp'],
+  // Second set of school things — from the "It's a pencil." picture (colour distractors)
+  'book-blue': [2, 215, 700, 425, 870, 'public/art/school/book-blue.webp'],
+  'pencil-case-pink': [2, 478, 710, 685, 865, 'public/art/school/pencil-case-pink.webp'],
+  'pencil-2': [2, 745, 685, 940, 875, 'public/art/school/pencil-2.webp'],
+  'eraser-blue': [2, 1000, 710, 1195, 855, 'public/art/school/eraser-blue.webp'],
+  'scissors-red': [2, 1248, 700, 1465, 855, 'public/art/school/scissors-red.webp'],
+  // Puppet accessories and clothes — from the second puppet-studio picture
+  'acc-earrings': [11, 1135, 490, 1218, 580, 'public/art/puppet/acc-earrings.webp'],
+  'acc-glasses': [11, 1225, 495, 1360, 565, 'public/art/puppet/acc-glasses.webp'],
+  'acc-bow': [11, 1365, 490, 1478, 585, 'public/art/puppet/acc-bow.webp'],
+  'acc-necklace': [11, 1485, 480, 1590, 585, 'public/art/puppet/acc-necklace.webp'],
+  'shirt-jumper': [11, 1105, 285, 1275, 420, 'public/art/puppet/shirt-jumper.webp'],
+  'shirt-cardigan': [11, 1290, 290, 1448, 425, 'public/art/puppet/shirt-cardigan.webp'],
+  'shirt-dress': [11, 1462, 285, 1595, 425, 'public/art/puppet/shirt-dress.webp'],
   // Hay bale — from "Build My Farm" (sits exactly over its spot in the farm scene)
   hay: [14, 1548, 350, 1672, 484, 'public/art/farm/hay.webp'],
 };

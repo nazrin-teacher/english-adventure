@@ -1,0 +1,145 @@
+.hunt-cards {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  gap: 1.2cqw;
+}
+.hunt-card {
+  position: relative;
+  flex: 1;
+  perspective: 900px;
+  padding: 0;
+}
+.hunt-card__inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ease-bounce);
+}
+.hunt-card.is-up .hunt-card__inner {
+  transform: rotateY(180deg);
+}
+.hunt-card__back,
+.hunt-card__face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.6cqw;
+  backface-visibility: hidden;
+  box-shadow: var(--shadow-md);
+}
+.hunt-card__back {
+  object-fit: cover;
+  animation: tour-glow 1.6s ease-in-out infinite;
+}
+.hunt-card__face {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3cqw;
+  background: #fffaf0;
+  border: max(3px, 0.35cqw) solid #ffd36b;
+}
+.hunt-card__face img {
+  max-width: 80%;
+  max-height: 70%;
+  min-width: 0;
+}
+.hunt-card__face img + img {
+  max-width: 44%;
+}
+@keyframes tour-glow {
+  50% {
+    box-shadow: 0 0 0 0.4cqw rgba(255, 243, 176, 0.9), 0 0 2cqw rgba(255, 197, 49, 0.8);
+  }
+}
+.hunt-mission {
+  flex-direction: column;
+  border-radius: 3.6cqw;
+}
+.hunt-mission__pics {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  min-height: 0;
+}
+.hunt-mission__pics img {
+  max-height: 100%;
+  max-width: 46%;
+}
+.hunt-mission__say {
+  display: flex;
+  align-items: center;
+  gap: 1cqw;
+  font-size: max(20px, 3.6cqw);
+  font-weight: 700;
+  color: #5b1fb8;
+}
+.hunt-actions .pill-btn {
+  font-size: max(20px, 3cqw);
+}
+.hunt-actions .hold-confirm {
+  font-size: max(15px, 1.9cqw);
+}
+.hunt-skip {
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  font-weight: 600;
+  color: #5b1fb8;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: max(13px, 1.4cqw);
+}
+.treasure-shelf {
+  position: absolute;
+  z-index: 22;
+  display: flex;
+  gap: 1.2cqw;
+  padding: 1cqw 1.4cqw;
+  border-radius: 2.4cqw;
+  background: linear-gradient(180deg, #e7b77c, #b97a3e);
+  border: max(4px, 0.4cqw) solid #ffe1a8;
+  box-shadow: var(--shadow-lg);
+}
+.treasure {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 1.6cqw;
+  background: rgba(255, 250, 238, 0.55);
+  border: max(2px, 0.25cqw) dashed #fff3d6;
+}
+.treasure.is-found {
+  background: #fffaf0;
+  border: max(3px, 0.3cqw) solid #ffd23f;
+  box-shadow: 0 0 1.4cqw rgba(255, 197, 49, 0.7);
+}
+.treasure.is-done {
+  border-color: #7ee04a;
+}
+.treasure img {
+  max-width: 78%;
+  max-height: 78%;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2));
+}
+.treasure__q {
+  font-size: max(22px, 3.4cqw);
+  font-weight: 700;
+  color: #fff3d6;
+}
+.treasure__tick {
+  position: absolute;
+  right: -0.6cqw;
+  top: -0.6cqw;
+  width: 2.8cqw;
+  height: 2.8cqw;
+  padding: 0.4cqw;
+  border-radius: 50%;
+  color: #fff;
+  background: #2f9e1e;
+  border: 2px solid #fff;
+}

@@ -867,3 +867,277 @@
   background: linear-gradient(90deg, #ffd23f, #ff9a2e);
   transition: width 0.5s ease;
 }
+
+.scene-top__centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5cqw;
+  pointer-events: none;
+}
+.scene-top__centre > * {
+  pointer-events: auto;
+}
+.choice-row {
+  position: absolute;
+  z-index: 30;
+  display: flex;
+  gap: 1.4cqw;
+  justify-content: center;
+}
+.choice-row__item {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 0.8cqw;
+  border-radius: 2cqw;
+  background: #fffaf0;
+  border: max(3px, 0.35cqw) solid #fff;
+  box-shadow: var(--shadow-md);
+  min-width: 0;
+}
+.choice-row__item img {
+  max-width: 88%;
+  max-height: 88%;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2));
+}
+.choice-row__item.is-glow {
+  box-shadow: 0 0 0 0.4cqw #fff3b0, 0 0 2cqw 0.6cqw rgba(255, 197, 49, 0.9);
+}
+.eyes-closed {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 45%, #3b2a7a, #160c38);
+  color: #fff3b0;
+  font-size: max(40px, 9cqw);
+  font-weight: 700;
+}
+.hold-confirm {
+  position: relative;
+  overflow: hidden;
+  padding: 0.6em 1.4em;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: max(14px, 1.6cqw);
+  color: #5b1fb8;
+  background: #fff;
+  border: max(3px, 0.3cqw) dashed #b97bff;
+  box-shadow: var(--shadow-sm);
+}
+.hold-confirm__fill {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  background: linear-gradient(90deg, #d8c2ff, #b97bff);
+}
+.hold-confirm.is-holding .hold-confirm__fill {
+  width: 100%;
+  transition: width 0.9s linear;
+}
+.hold-confirm__text {
+  position: relative;
+}
+.sprite.is-alive img {
+  animation: piece-idle 3.4s ease-in-out infinite;
+}
+@keyframes piece-idle {
+  0%,
+  100% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  30% {
+    transform: rotate(-1.4deg) scaleY(1.015);
+  }
+  65% {
+    transform: rotate(1.2deg) scaleY(0.99);
+  }
+}
+.panel-card {
+  position: absolute;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2cqw;
+  padding: 1cqw 1.4cqw;
+  border-radius: 2.4cqw;
+  background: linear-gradient(180deg, #fffdf6, #fff0d4);
+  border: max(4px, 0.4cqw) solid #ffd36b;
+  box-shadow: var(--shadow-lg);
+}
+.panel-card img {
+  max-height: 100%;
+  max-width: 100%;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* ----- Farm Animal Detective ----- */
+.detective-panel {
+  overflow: hidden;
+}
+.detective-shadow {
+  height: 92%;
+  filter: brightness(0) saturate(100%) !important;
+  opacity: 0.85;
+}
+.detective-hide {
+  position: relative;
+  width: 70%;
+  height: 100%;
+  overflow: hidden;
+}
+.detective-hide__animal {
+  position: absolute;
+  left: 8%;
+  width: 84%;
+  bottom: 22%;
+  height: 90%;
+  object-fit: contain;
+}
+.detective-hide__hay {
+  position: absolute;
+  left: -5%;
+  bottom: -6%;
+  width: 110%;
+  height: 72%;
+  object-fit: cover;
+  border-radius: 1cqw;
+}
+.detective-clue {
+  margin: 0;
+  font-size: max(16px, 2.4cqw);
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+}
+.detective-match {
+  height: 92%;
+}
+.sound-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+.sound-btn b {
+  position: absolute;
+  right: 8%;
+  bottom: 4%;
+  font-size: 0.45em;
+}
+.sound-btn__heard {
+  display: block;
+  width: 30%;
+  height: 0.6cqw;
+  margin: 0.4cqw auto 0;
+  border-radius: 999px;
+  background: #ffd23f;
+}
+
+/* ----- Classroom Detective ----- */
+.hide-box {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1.6;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.hide-box img {
+  max-height: 86%;
+  max-width: 90%;
+}
+.hide-box__cloud {
+  position: absolute;
+  top: -6%;
+  right: -4%;
+  width: 72%;
+  height: 112%;
+  border-radius: 46% 40% 42% 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, #f1e9ff 55%, #d9c6ff);
+  box-shadow: 0 0 0 0.4cqw #fff, var(--shadow-md);
+}
+.missing-row {
+  gap: 2cqw;
+}
+.missing-row__slot {
+  height: 86%;
+  aspect-ratio: 1.2;
+  display: grid;
+  place-items: center;
+  border-radius: 1.4cqw;
+  background: #fff;
+  border: max(2px, 0.25cqw) dashed #e3c99a;
+}
+.missing-row__slot img {
+  max-height: 84%;
+  max-width: 88%;
+}
+.missing-row__slot.is-gone img {
+  visibility: hidden;
+}
+.drag-ghost {
+  position: fixed;
+  z-index: 100;
+  height: clamp(70px, 14vh, 140px);
+  width: auto;
+  translate: -50% -70%;
+  pointer-events: none;
+  filter: drop-shadow(0 12px 10px rgba(0, 0, 0, 0.35));
+  rotate: -4deg;
+}
+
+/* ----- Family Mystery ----- */
+.family-wall {
+  position: absolute;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2cqw;
+  padding: 1.4cqw;
+  border-radius: 2.6cqw;
+  background: linear-gradient(180deg, #e7b77c, #b97a3e);
+  border: max(4px, 0.45cqw) solid #ffe1a8;
+  box-shadow: var(--shadow-lg);
+}
+.family-wall__tile {
+  padding: 0;
+  border-radius: 1.6cqw;
+  overflow: hidden;
+  background: #fff;
+  border: max(3px, 0.35cqw) solid #fff6d8;
+  box-shadow: var(--shadow-sm);
+  min-height: 0;
+}
+.family-wall__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.family-wall__tile.is-done {
+  border-color: #7ee04a;
+}
+.family-wall__tile.is-glow,
+.person-hotspot.is-glow {
+  box-shadow: 0 0 0 0.4cqw #fff3b0, 0 0 2cqw 0.6cqw rgba(255, 197, 49, 0.9);
+}
+
+/* short landscape phones: keep the instruction compact so it never hides the play area */
+@media (max-height: 460px) {
+  .prompt,
+  .mission {
+    font-size: max(12px, 1.8cqw) !important;
+  }
+  .prompt__body .round-btn,
+  .mission__body .round-btn {
+    --size: 34px;
+    border-width: 3px;
+  }
+  .stage-trail {
+    font-size: 9px;
+  }
+}

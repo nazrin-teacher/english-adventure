@@ -4,6 +4,8 @@ import { useApp } from '../hooks/useApp';
 import { audio } from '../services/audio';
 import { playSfx } from '../services/sfx';
 import { HomeButton, ListenButton, ParentButton, StarPill, asset } from './ui';
+import { StageTrail } from './StageTrail';
+import type { Mood } from './CharacterRig';
 import './scene.css';
 
 /** Reference illustrations are 1672 × 941; all scene boxes use those pixels. */
@@ -33,7 +35,12 @@ export function GameScreen({
   promptExtra,
   children,
   className = '',
+  stage,
+  stageProgress = 0,
 }: {
+  /** 0 discover · 1 challenge · 2 speak & create · 3 finished (picture trail, no text) */
+  stage?: 0 | 1 | 2 | 3;
+  stageProgress?: number;
   scene: string;
   onHome: () => void;
   onParent: () => void;
@@ -52,18 +59,19 @@ export function GameScreen({
         {children}
         <div className="scene-top">
           <HomeButton onClick={onHome} />
-          {prompt ? (
-            <motion.div key={prompt} className="prompt" initial={{ y: -24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-              {tag && <span className="prompt__tag">{tag}</span>}
-              <div className="prompt__body">
-                <ListenButton text={prompt} size="sm" label="Listen to the instruction" />
-                <p className="prompt__text">{prompt}</p>
-                {promptExtra}
-              </div>
-            </motion.div>
-          ) : (
-            <span />
-          )}
+          <div className="scene-top__centre">
+            {stage !== undefined && <StageTrail stage={stage} progress={stageProgress} />}
+            {prompt && (
+              <motion.div key={prompt} className="prompt" initial={{ y: -24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+                {tag && <span className="prompt__tag">{tag}</span>}
+                <div className="prompt__body">
+                  <ListenButton text={prompt} size="sm" label="Listen to the instruction" />
+                  <p className="prompt__text">{prompt}</p>
+                  {promptExtra}
+                </div>
+              </motion.div>
+            )}
+          </div>
           <div className="scene-top__right">
             <StarPill stars={stars} className="scene-stars" />
             <ParentButton onOpen={onParent} />
@@ -187,3 +195,104 @@ export function shuffle<T>(items: readonly T[], seed: number): T[] {
   }
   return a;
 }
+
+export const boxCentre = (b: number[]): [number, number] => [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2];
+
+/** Mood + pointing target for a guide character, with automatic return to idle. */
+export function useGuide() {
+  const [mood, setMood] = useState<Mood>('idle');
+  const [pointAt, setPointAt] = useState<[number, number] | null>(null);
+  const timer = useRef<number | null>(null);
+  const react = useCallback((m: Mood, ms = 1300) => {
+    setMood(m);
+    if (timer.current) window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setMood('idle'), ms);
+  }, []);
+  useEffect(() => () => void (timer.current && window.clearTimeout(timer.current)), []);
+  return { mood, react, pointAt, setPointAt };
+}
+
+/** A row of picture choices (used for "what's missing?", hidden objects, …). */
+export function ChoiceRow({
+  items,
+  onPick,
+  box,
+  wrong,
+  glow,
+}: {
+  items: { id: string; src: string; label: string }[];
+  onPick: (id: string) => void;
+  box: Box;
+  wrong?: string | null;
+  glow?: string | null;
+}) {
+  return (
+    <div className="choice-row" style={at(box)} role="group" aria-label="Choices">
+      {items.map((it) => (
+        <motion.button
+          key={it.id}
+          type="button"
+          className={`choice-row__item ${glow === it.id ? 'is-glow' : ''}`}
+          aria-label={it.label}
+          onClick={() => onPick(it.id)}
+          animate={wrong === it.id ? { rotate: [0, -6, 6, -3, 0] } : { rotate: 0 }}
+          whileTap={{ scale: 0.93 }}
+        >
+          <img src={asset(it.src)} alt="" draggable={false} />
+        </motion.button>
+      ))}
+    </div>
+  );
+}
+
+/** "Close your eyes!" curtain for memory activities. */
+export function EyesClosed({ show }: { show: boolean }) {
+  if (!show) return null;
+  return (
+    <motion.div className="eyes-closed" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.span animate={{ scaleY: [1, 0.1, 0.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>
+        ◠ ◠
+      </motion.span>
+    </motion.div>
+  );
+}
+
+/**
+ * Grown-up confirmation: press and hold. The app never claims it checked a
+ * real-world object itself — a grown-up confirms.
+ */
+export function HoldToConfirm({ label, onConfirm }: { label: string; onConfirm: () => void }) {
+  const [holding, setHolding] = useState(false);
+  const t = useRef<number | null>(null);
+  const start = () => {
+    setHolding(true);
+    t.current = window.setTimeout(() => {
+      setHolding(false);
+      playSfx('success');
+      onConfirm();
+    }, 900);
+  };
+  const stop = () => {
+    setHolding(false);
+    if (t.current) window.clearTimeout(t.current);
+  };
+  return (
+    <button
+      type="button"
+      className={`hold-confirm ${holding ? 'is-holding' : ''}`}
+      onPointerDown={start}
+      onPointerUp={stop}
+      onPointerLeave={stop}
+      onPointerCancel={stop}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onConfirm())}
+      onContextMenu={(e) => e.preventDefault()}
+      aria-label={label}
+    >
+      <span className="hold-confirm__fill" />
+      <span className="hold-confirm__text">{label}</span>
+    </button>
+  );
+}
+
+/** Story timings (look → close your eyes → …). Shortened only in automated tests. */
+export const pace = (ms: number) => (import.meta.env.MODE === 'test' ? Math.min(ms, 30) : ms);

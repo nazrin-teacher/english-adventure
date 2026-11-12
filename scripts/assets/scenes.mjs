@@ -9,6 +9,14 @@ import { dilate, inpaintWindow, loadRaw, maskRect, maskWhere, newMask, saveRaw, 
 const R = (box, name = '') => ({ box, name });
 
 export const SCENES = {
+  bag: {
+    src: 2,
+    steps: [R([20, 10, 130, 115]), R([1545, 10, 1660, 115]), R([785, 25, 1490, 305]), R([925, 295, 1405, 450]), R([915, 450, 1485, 620]), R([140, 650, 1535, 920]), R([688, 200, 792, 430], 'pencil in her hand')],
+  },
+  guess: {
+    src: 4,
+    steps: [R([18, 8, 138, 122]), R([1388, 12, 1660, 112]), R([400, 12, 1140, 275]), R([615, 262, 1000, 405]), R([615, 420, 1000, 580]), R([60, 640, 1615, 930])],
+  },
   classroom: {
     src: 6,
     steps: [

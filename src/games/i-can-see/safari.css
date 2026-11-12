@@ -1,0 +1,31 @@
+.safari-field {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  touch-action: none;
+  cursor: grab;
+}
+/* binoculars: two round lenses; everything else is dimmed */
+.binoculars {
+  --lx: 60%;
+  --ly: 50%;
+  --r: 11cqw;
+  --hole-l: radial-gradient(circle var(--r) at calc(var(--lx) - var(--r) * 0.62) var(--ly), transparent 95%, #000 100%);
+  --hole-r: radial-gradient(circle var(--r) at calc(var(--lx) + var(--r) * 0.62) var(--ly), transparent 95%, #000 100%);
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background: rgba(18, 10, 44, 0.72);
+  -webkit-mask-image: var(--hole-l), var(--hole-r);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--hole-l), var(--hole-r);
+  mask-composite: intersect;
+}
+.binoculars-rim {
+  position: absolute;
+  z-index: 31;
+  pointer-events: none;
+  border-radius: 999px;
+  box-shadow: 0 0 0 0.45cqw rgba(255, 243, 176, 0.9), 0 0 2cqw rgba(255, 197, 49, 0.6);
+}

@@ -39,6 +39,7 @@ They are turned into separate, movable assets by the scripts in `scripts/assets/
 | `scenes.mjs` | Eight clean game backgrounds — baked-in text, buttons and the objects that became sprites removed with a local LaMa inpainting model |
 | `farm-background.mjs`, `farm-icons.mjs` | Build My Farm scene and its tree / barn / fence picture cues |
 | `home-assets.mjs` | Home scene, nine separate card images, card/star positions |
+| `rigs.mjs` | Animated guide characters for the other scenes (body + mouth layers, eyes, skin) and removes them from the backgrounds — run after `scenes.mjs` |
 | `rig-farmer.mjs` | Animated farmer: body, pointing forearm and mouth layers + eye/skin data (`src/content/rigs.json`); removes him from the farm background |
 | `clean-sources.mjs`, `fix-edges.mjs` | Small touch-ups (sheep wool marks, golden frame edge on one top) |
 
@@ -47,13 +48,16 @@ used to prepare assets; nothing runs at app runtime.
 
 ## Known asset gaps
 
-* **baby, uncle, aunt, cousin** — no pictures exist in the supplied artwork, so My Family Memory uses
-  mum, dad, grandma, grandpa, sister and brother. Supply pictures and add them to `content/family.ts`.
-* **Animal sounds** — no recordings were supplied; the game speaks "Moo! Moo!" etc. Map recorded
-  sound files to those exact strings in `src/content/audioManifest.ts`.
-* **Meet My Family** — the mum in the supplied picture has a baked-in yellow glow that could not be
-  removed cleanly; it is softened by the spotlight when another person is chosen.
-* Repainted areas of backgrounds are softer than the original art; they sit under the live UI.
+* **baby, uncle, aunt, cousin** — no pictures in the supplied artwork; family games use mum, dad,
+  grandma, grandpa, sister and brother. Supply pictures and add them to `content/family.ts`.
+* **tall, short, thin, fat** — no pictures where these are clearly visible, so Guess Who? uses hair,
+  eyes, glasses, moustache and bows instead.
+* **School bag** — no separate bag picture; Pack My School Bag uses the girl's backpack in the
+  supplied "It's a pencil" picture as the drop target.
+* **Animal sounds** — no recordings; the game speaks "Moo!" etc. Map recordings to those strings in
+  `src/content/audioManifest.ts`.
+* **Meet My Family picture** — mum's baked-in yellow glow remains in the family photo scene.
+* Repainted areas of backgrounds are softer than the original art; most sit under live UI.
 
 ## Audio
 

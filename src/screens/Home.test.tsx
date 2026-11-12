@@ -35,7 +35,7 @@ describe('Home screen', () => {
     fireEvent.click(screen.getByRole('button', { name: /Little Farm Designer/ }));
     expect(onOpen).toHaveBeenCalledWith('build-my-farm');
 
-    fireEvent.click(screen.getByRole('button', { name: /Which Animal Is It/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Farm Animal Detective/ }));
     expect(onOpen).toHaveBeenLastCalledWith('which-animal');
     expect(document.querySelectorAll('.home-card__lock')).toHaveLength(0);
   });

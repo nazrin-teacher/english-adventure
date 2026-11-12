@@ -16,9 +16,30 @@ export type Mood = 'idle' | 'cheer' | 'encourage';
 type Box = number[];
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
-export function CharacterRig({ name, pointAt, mood = 'idle' }: { name: RigName; pointAt?: [number, number] | null; mood?: Mood }) {
-  const rig = rigs[name];
-  const speaking = useSpeaking();
+type RigData = {
+  scene: { width: number; height: number };
+  body: { src: string; box: number[] };
+  arm?: { src: string; box: number[]; pivot: number[] };
+  mouth: { src: string; box: number[] };
+  eyes: { cx: number; cy: number; rx: number; ry: number; rot: number }[];
+  skin: string;
+};
+
+export function CharacterRig({
+  name,
+  pointAt,
+  mood = 'idle',
+  talks = true,
+}: {
+  name: RigName;
+  pointAt?: [number, number] | null;
+  mood?: Mood;
+  /** Only the character that "is" the narrator moves its mouth. */
+  talks?: boolean;
+}) {
+  const rig = rigs[name] as RigData;
+  const arm = rig.arm;
+  const speaking = useSpeaking() && talks;
   const reduce = useReducedMotion();
   const [blinkKey, setBlinkKey] = useState(0);
   const { width: SW, height: SH } = rig.scene;
@@ -42,15 +63,20 @@ export function CharacterRig({ name, pointAt, mood = 'idle' }: { name: RigName; 
   }, [reduce]);
 
   // aim the pointing hand at the target (clamped to a natural range)
-  const [px, py] = rig.arm.pivot;
-  const [al, at, ar, ab] = rig.arm.box as Box;
-  const baseAngle = (Math.atan2(at + (ab - at) * 0.1 - py, ar - px) * 180) / Math.PI;
+  const [px, py] = arm?.pivot ?? [0, 0];
+  const [al, at, ar, ab] = (arm?.box ?? [0, 0, 1, 1]) as Box;
   let armAngle = 0;
-  if (mood === 'cheer') armAngle = -24;
-  else if (pointAt) {
-    const target = (Math.atan2(pointAt[1] - py, pointAt[0] - px) * 180) / Math.PI;
-    armAngle = Math.max(-28, Math.min(30, target - baseAngle));
+  if (arm) {
+    const baseAngle = (Math.atan2(at + (ab - at) * 0.1 - py, ar - px) * 180) / Math.PI;
+    if (mood === 'cheer') armAngle = -24;
+    else if (pointAt) {
+      const target = (Math.atan2(pointAt[1] - py, pointAt[0] - px) * 180) / Math.PI;
+      armAngle = Math.max(-28, Math.min(30, target - baseAngle));
+    }
   }
+  // characters without a moving arm lean gently towards what they are showing
+  const lean = !arm && pointAt ? Math.max(-4, Math.min(4, ((pointAt[0] - (bl + br) / 2) / SW) * 8)) : 0;
+  const big = Boolean(arm); // full-figure rigs can jump higher
 
   return (
     <motion.div
@@ -60,10 +86,12 @@ export function CharacterRig({ name, pointAt, mood = 'idle' }: { name: RigName; 
         reduce
           ? undefined
           : mood === 'cheer'
-            ? { y: [0, -26, 0, -12, 0], rotate: [0, -2, 2, 0] }
+            ? big
+              ? { y: [0, -26, 0, -12, 0], rotate: [0, -2, 2, 0] }
+              : { y: [0, -9, 0, -4, 0], scale: [1, 1.03, 1, 1.01, 1], rotate: [lean, lean - 2, lean + 2, lean] }
             : mood === 'encourage'
-              ? { rotate: [0, -3, -3, 0], y: [0, 4, 4, 0] }
-              : { y: 0, rotate: 0 }
+              ? { rotate: [lean, lean - 3, lean - 3, lean], y: [0, 3, 3, 0] }
+              : { y: 0, rotate: lean, scale: 1 }
       }
       transition={{ duration: mood === 'cheer' ? 0.9 : 1.2 }}
       aria-hidden
@@ -84,15 +112,17 @@ export function CharacterRig({ name, pointAt, mood = 'idle' }: { name: RigName; 
         <span className="rig__mouth-patch" style={{ ...inBody(rig.mouth.box as Box), background: rig.skin }} />
         <img className="rig__mouth" src={asset(rig.mouth.src)} style={inBody(rig.mouth.box as Box)} alt="" draggable={false} />
         {/* pointing forearm */}
+        {arm && (
         <motion.img
           className="rig__arm"
-          src={asset(rig.arm.src)}
+          src={asset(arm!.src)}
           style={{ ...inBody([al, at, ar, ab]), transformOrigin: `${pct(px - al, ar - al)} ${pct(py - at, ab - at)}` }}
           animate={{ rotate: armAngle }}
           transition={{ type: 'spring', stiffness: 120, damping: 14 }}
           alt=""
           draggable={false}
         />
+        )}
       </div>
     </motion.div>
   );

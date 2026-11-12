@@ -47,3 +47,20 @@ School Treasure Hunt (real-world missions + collection), Family Mystery (memory,
 Guess Who? (appearance clues, one answer each), Puppet Studio (hair colour/type, accessories,
 stage show), Farm Animal Detective (sounds, silhouettes, hidden animal), Farm Safari (binoculars,
 spoken farm report). Missing artwork will be listed before that work starts.
+
+## 3. Done (after approval)
+
+| Home card | Discover | Challenge | Speak & Create |
+| --- | --- | --- | --- |
+| Classroom Detective | tap classroom things | colour clue · look-alikes · hidden thing · what's missing | "It's a…/They're…" |
+| Pack My School Bag | explore the desk | find → put (drag or tap), colours, "two pencils" | open the bag, describe |
+| School Treasure Hunt | flip mission cards | real home search, grown-up hold-to-confirm | "I found a…", describe treasures |
+| Family Mystery | meet the family | memory ×2 · who's missing · listen & tap · find in photo | "This is my… / She's my…" |
+| Guess Who? | touch grandma's face/body parts | 1-clue then 2-clue guessing (unique answers) | describe; child gives clues, grown-up guesses |
+| My Family Puppet Studio | meet the puppets | build from spoken orders (checked) | own puppet, hair type+colour, extras, arrange, show |
+| Farm Animal Detective | animals with sounds | sound · shadow · clue · hidden · sound-match | "It's a cow. It's black and white." |
+| Farm Safari | binoculars discovery | colour/size/legs/next to/on missions | 3-animal spoken farm report |
+| Little Farm Designer | farm tour, meet animals | placement, big animal, count 7 → 9 | free build, farm report, care |
+
+Every game has an animated guide (blink, talk, react, lean/point), a picture-only stage trail,
+Turkish grown-ups help, a sticker reward, and a start-to-finish automated test.

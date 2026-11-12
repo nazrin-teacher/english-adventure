@@ -1,0 +1,98 @@
+.bag-target {
+  position: absolute;
+  z-index: 36;
+  border-radius: 30%;
+}
+.bag-target.is-open {
+  box-shadow: 0 0 0 0.45cqw #fff3b0, 0 0 2.4cqw 0.8cqw rgba(255, 197, 49, 0.85);
+  animation: bag-pulse 1s ease-in-out infinite;
+}
+@keyframes bag-pulse {
+  50% {
+    transform: scale(1.05);
+  }
+}
+.desk-board {
+  position: absolute;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.8cqw;
+  padding: 1.2cqw;
+  border-radius: 2.4cqw;
+  background: linear-gradient(180deg, #e7b77c, #b97a3e);
+  border: max(4px, 0.4cqw) solid #ffe1a8;
+  box-shadow: inset 0 0.5cqw 0 rgba(255, 255, 255, 0.25), var(--shadow-lg);
+}
+.desk-item {
+  display: grid;
+  place-items: center;
+  padding: 0.4cqw;
+  border-radius: 1.4cqw;
+  background: rgba(255, 250, 238, 0.9);
+  touch-action: none;
+  min-width: 0;
+  min-height: 0;
+}
+.desk-item img {
+  max-width: 92%;
+  max-height: 88%;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.22));
+}
+.desk-item.is-selected {
+  background: radial-gradient(circle, #fff6b8, #ffd23f 75%);
+  box-shadow: 0 0 0 0.35cqw #fff, 0 0 2cqw rgba(255, 197, 49, 0.9);
+}
+.desk-item.is-hint,
+.desk-item.is-new {
+  box-shadow: 0 0 0 0.3cqw #fff3b0, 0 0 1.4cqw rgba(255, 197, 49, 0.75);
+}
+.bag-contents {
+  position: absolute;
+  z-index: 22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1cqw;
+  padding: 0.8cqw;
+  border-radius: 2.4cqw;
+  background: linear-gradient(180deg, rgba(185, 123, 255, 0.85), rgba(122, 47, 224, 0.85));
+  border: max(3px, 0.3cqw) solid #fff;
+  box-shadow: var(--shadow-md);
+}
+.bag-contents:empty {
+  display: none;
+}
+.bag-contents__item {
+  height: 82%;
+  aspect-ratio: 1.1;
+  display: grid;
+  place-items: center;
+  border-radius: 1.4cqw;
+  background: #fffaf0;
+}
+.bag-contents.is-open .bag-contents__item {
+  height: 42%;
+  width: 22%;
+  aspect-ratio: auto;
+  box-shadow: 0 0 0 0.3cqw #fff3b0;
+}
+.bag-contents__item.is-done {
+  background: #e9ffe0;
+}
+.bag-contents__item img {
+  max-width: 88%;
+  max-height: 86%;
+}
+.bag-floor {
+  position: absolute;
+  z-index: 5;
+  border-top: max(4px, 0.45cqw) solid #ffe1a8;
+  background:
+    repeating-linear-gradient(90deg, rgba(120, 70, 30, 0.08) 0 6cqw, rgba(255, 255, 255, 0.06) 6cqw 12cqw),
+    linear-gradient(180deg, #e2a866, #b3743a 60%, #915a28);
+  box-shadow: inset 0 0.6cqw 0 rgba(255, 255, 255, 0.25);
+}

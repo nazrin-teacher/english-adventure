@@ -28,14 +28,14 @@ export type GameInfo = {
 };
 
 export const GAMES: GameInfo[] = [
-  { id: 'school-objects-match', title: 'School Objects Match', spokenTitle: 'School Objects Match', tone: 'blue', tint: 'sky', available: true, sticker: 'art/school/pencil.webp' },
-  { id: 'its-a', title: 'It’s a…!', spokenTitle: "It's a...!", tone: 'pink', tint: 'sun', available: true, sticker: 'art/school/book.webp' },
-  { id: 'school-object-hunt', title: 'School Object Hunt', spokenTitle: 'School Object Hunt', tone: 'green', tint: 'peach', available: true, sticker: 'art/school/orange.webp' },
-  { id: 'family-memory', title: 'My Family Memory', spokenTitle: 'My Family Memory', tone: 'purple', tint: 'lilac', available: true, sticker: 'art/family/mum.webp' },
-  { id: 'meet-my-family', title: 'Meet My Family', spokenTitle: 'Meet My Family', tone: 'orange', tint: 'peach', available: true, sticker: 'art/family/grandpa.webp' },
-  { id: 'puppet-studio', title: 'My Family Puppet Studio', spokenTitle: 'My Family Puppet Studio', tone: 'purple', tint: 'lilac', available: true, sticker: 'art/puppet/face-happy.webp' },
-  { id: 'which-animal', title: 'Which Animal Is It?', spokenTitle: 'Which animal is it?', tone: 'green', tint: 'meadow', available: true, sticker: 'art/animals/cow.webp' },
-  { id: 'i-can-see', title: 'I Can See…!', spokenTitle: 'I can see...!', tone: 'blue', tint: 'meadow', available: true, sticker: 'art/animals/duck.webp' },
+  { id: 'school-objects-match', title: 'Classroom Detective', spokenTitle: "Classroom Detective!", tone: 'blue', tint: 'sky', available: true, sticker: 'art/school/pencil.webp' },
+  { id: 'its-a', title: 'Pack My School Bag', spokenTitle: "Pack my school bag!", tone: 'pink', tint: 'sun', available: true, sticker: 'art/school/book.webp' },
+  { id: 'school-object-hunt', title: 'School Treasure Hunt', spokenTitle: "School Treasure Hunt!", tone: 'green', tint: 'peach', available: true, sticker: 'art/school/orange.webp' },
+  { id: 'family-memory', title: 'Family Mystery', spokenTitle: "Family Mystery!", tone: 'purple', tint: 'lilac', available: true, sticker: 'art/family/mum.webp' },
+  { id: 'meet-my-family', title: 'Guess Who?', spokenTitle: "Guess who?", tone: 'orange', tint: 'peach', available: true, sticker: 'art/family/grandpa.webp' },
+  { id: 'puppet-studio', title: 'My Family Puppet Studio', spokenTitle: "My Family Puppet Studio!", tone: 'purple', tint: 'lilac', available: true, sticker: 'art/puppet/face-happy.webp' },
+  { id: 'which-animal', title: 'Farm Animal Detective', spokenTitle: "Farm Animal Detective!", tone: 'green', tint: 'meadow', available: true, sticker: 'art/animals/cow.webp' },
+  { id: 'i-can-see', title: 'Farm Safari', spokenTitle: "Farm Safari!", tone: 'blue', tint: 'meadow', available: true, sticker: 'art/animals/duck.webp' },
   { id: 'build-my-farm', title: 'Little Farm Designer', spokenTitle: 'Little Farm Designer!', tone: 'red', tint: 'meadow', available: true, sticker: 'art/animals/sheep.webp' },
 ];
 

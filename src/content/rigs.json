@@ -52,5 +52,415 @@
       }
     ],
     "skin": "#fdbc93"
+  },
+  "animal-girl": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/animal-girl-body.webp",
+      "box": [
+        0,
+        221,
+        330,
+        650
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/animal-girl-mouth.webp",
+      "box": [
+        223,
+        493,
+        302,
+        528
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 192,
+        "cy": 459,
+        "rx": 29,
+        "ry": 26,
+        "rot": 0
+      },
+      {
+        "cx": 289,
+        "cy": 431,
+        "rx": 24,
+        "ry": 24,
+        "rot": 0
+      }
+    ],
+    "skin": "#febc8c"
+  },
+  "animal-boy": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/animal-boy-body.webp",
+      "box": [
+        1377,
+        295,
+        1672,
+        720
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/animal-boy-mouth.webp",
+      "box": [
+        1433,
+        503,
+        1518,
+        548
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 1445,
+        "cy": 464,
+        "rx": 20,
+        "ry": 24,
+        "rot": 0
+      },
+      {
+        "cx": 1535,
+        "cy": 478,
+        "rx": 30,
+        "ry": 25,
+        "rot": 0
+      }
+    ],
+    "skin": "#fdbe91"
+  },
+  "safari-boy": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/safari-boy-body.webp",
+      "box": [
+        0,
+        188,
+        347,
+        636
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/safari-boy-mouth.webp",
+      "box": [
+        191,
+        416,
+        262,
+        452
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 163,
+        "cy": 388,
+        "rx": 28,
+        "ry": 27,
+        "rot": 0
+      },
+      {
+        "cx": 254,
+        "cy": 363,
+        "rx": 23,
+        "ry": 26,
+        "rot": 0
+      }
+    ],
+    "skin": "#febd8a"
+  },
+  "class-girl": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/class-girl-body.webp",
+      "box": [
+        15,
+        62,
+        645,
+        613
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/class-girl-mouth.webp",
+      "box": [
+        331,
+        376,
+        422,
+        436
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 297,
+        "cy": 345,
+        "rx": 45,
+        "ry": 40,
+        "rot": 0
+      },
+      {
+        "cx": 427,
+        "cy": 313,
+        "rx": 35,
+        "ry": 39,
+        "rot": 0
+      }
+    ],
+    "skin": "#feba94"
+  },
+  "hunt-girl": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/hunt-girl-body.webp",
+      "box": [
+        0,
+        105,
+        589,
+        941
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/hunt-girl-mouth.webp",
+      "box": [
+        357,
+        451,
+        450,
+        502
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 303,
+        "cy": 400,
+        "rx": 45,
+        "ry": 42,
+        "rot": 0
+      },
+      {
+        "cx": 448,
+        "cy": 372,
+        "rx": 34,
+        "ry": 37,
+        "rot": 0
+      }
+    ],
+    "skin": "#feb485"
+  },
+  "memory-boy": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/memory-boy-body.webp",
+      "box": [
+        2,
+        159,
+        530,
+        941
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/memory-boy-mouth.webp",
+      "box": [
+        259,
+        436,
+        350,
+        492
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 220,
+        "cy": 402,
+        "rx": 39,
+        "ry": 40,
+        "rot": 0
+      },
+      {
+        "cx": 340,
+        "cy": 368,
+        "rx": 32,
+        "ry": 37,
+        "rot": 0
+      }
+    ],
+    "skin": "#feb083"
+  },
+  "family-girl": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/family-girl-body.webp",
+      "box": [
+        0,
+        294,
+        538,
+        941
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/family-girl-mouth.webp",
+      "box": [
+        349,
+        551,
+        440,
+        602
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 303,
+        "cy": 495,
+        "rx": 45,
+        "ry": 40,
+        "rot": 0
+      },
+      {
+        "cx": 427,
+        "cy": 490,
+        "rx": 26,
+        "ry": 42,
+        "rot": 0
+      }
+    ],
+    "skin": "#fdbb8f"
+  },
+  "puppet-boy": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/puppet-boy-body.webp",
+      "box": [
+        0,
+        118,
+        405,
+        690
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/puppet-boy-mouth.webp",
+      "box": [
+        206,
+        409,
+        292,
+        462
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 160,
+        "cy": 372,
+        "rx": 39,
+        "ry": 34,
+        "rot": 0
+      },
+      {
+        "cx": 283,
+        "cy": 338,
+        "rx": 29,
+        "ry": 37,
+        "rot": 0
+      }
+    ],
+    "skin": "#feba8d"
+  },
+  "bag-girl": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/bag-girl-body.webp",
+      "box": [
+        120,
+        13,
+        777,
+        650
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/bag-girl-mouth.webp",
+      "box": [
+        501,
+        336,
+        603,
+        396
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 447,
+        "cy": 292,
+        "rx": 52,
+        "ry": 44,
+        "rot": 0
+      },
+      {
+        "cx": 600,
+        "cy": 245,
+        "rx": 39,
+        "ry": 47,
+        "rot": 0
+      }
+    ],
+    "skin": "#fdaa74"
+  },
+  "guess-girl": {
+    "scene": {
+      "width": 1672,
+      "height": 941
+    },
+    "body": {
+      "src": "art/rigs/guess-girl-body.webp",
+      "box": [
+        74,
+        105,
+        651,
+        640
+      ]
+    },
+    "mouth": {
+      "src": "art/rigs/guess-girl-mouth.webp",
+      "box": [
+        366,
+        379,
+        460,
+        425
+      ]
+    },
+    "eyes": [
+      {
+        "cx": 333,
+        "cy": 345,
+        "rx": 42,
+        "ry": 34,
+        "rot": 0
+      },
+      {
+        "cx": 442,
+        "cy": 320,
+        "rx": 31,
+        "ry": 39,
+        "rot": 0
+      }
+    ],
+    "skin": "#feb37b"
   }
 }
