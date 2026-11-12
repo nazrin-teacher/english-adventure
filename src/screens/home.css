@@ -1,0 +1,122 @@
+.home {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+/* ----- wide: the home illustration as a fixed-ratio stage ----- */
+.home--wide {
+  display: grid;
+  place-items: center;
+}
+.home-stage {
+  position: relative;
+  width: min(100vw, calc(100dvh * 1672 / 941));
+  container-type: inline-size;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.25);
+}
+.home-stage__bg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.home-stage__corner {
+  position: absolute;
+  display: grid;
+  place-items: center;
+}
+.home-stage__corner .round-btn {
+  --size: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+/* ----- cards ----- */
+.home-card {
+  position: relative;
+  display: block;
+  padding: 0;
+  border-radius: 9% / 16%;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+}
+.home-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.home-card:hover img,
+.home-card:focus-visible img {
+  filter: brightness(1.06) saturate(1.05);
+  box-shadow: 0 10px 24px rgba(40, 10, 90, 0.35);
+}
+.home-card__stars {
+  position: absolute;
+  display: flex;
+}
+.home-card__stars .star-pill {
+  width: 100%;
+  height: 100%;
+  padding: 0 7%;
+  justify-content: space-between;
+  border-width: 2px;
+}
+.home-card__stars .star-pill__star {
+  width: auto;
+  height: 78%;
+  aspect-ratio: 1;
+}
+.home-card__lock {
+  position: absolute;
+  right: 3.6%;
+  bottom: 5.6%;
+  width: 16.5%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(180deg, #a59cc9, #6f6799);
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ----- narrow: scrollable list of the same cards ----- */
+.home--narrow {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: max(10px, env(safe-area-inset-top)) 16px 24px;
+}
+.home-narrow__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.home-narrow__logo {
+  width: min(62vw, 340px);
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(60, 20, 120, 0.35));
+}
+.home-narrow__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.home--narrow .home-card {
+  width: 100%;
+}
+.home--narrow .home-card img {
+  box-shadow: 0 6px 16px rgba(40, 10, 90, 0.3);
+}
+@media (max-width: 420px) {
+  .home-narrow__grid {
+    grid-template-columns: 1fr;
+  }
+}

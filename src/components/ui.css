@@ -1,0 +1,345 @@
+/* ---------- Round glossy buttons (match the reference art) ---------- */
+.round-btn {
+  --c1: #b26bff;
+  --c2: #7b2fe0;
+  --edge: #fff;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--size, 64px);
+  height: var(--size, 64px);
+  border-radius: 50%;
+  color: #fff;
+  background: radial-gradient(circle at 35% 28%, #fff7 0 12%, transparent 13%), linear-gradient(180deg, var(--c1), var(--c2));
+  border: 4px solid var(--edge);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18), 0 8px 18px rgba(40, 10, 80, 0.35), inset 0 -6px 0 rgba(0, 0, 0, 0.15);
+  flex: none;
+}
+.round-btn.size-sm {
+  --size: clamp(44px, 5vw, 54px);
+}
+.round-btn.size-md {
+  --size: clamp(52px, 6.4vw, 72px);
+}
+.round-btn.size-lg {
+  --size: clamp(66px, 9vw, 96px);
+}
+.round-btn:disabled {
+  filter: grayscale(0.7);
+  opacity: 0.6;
+}
+.tone-orange {
+  --c1: #ffab3d;
+  --c2: #f06a0f;
+}
+.tone-purple {
+  --c1: #b97bff;
+  --c2: #7a2fe0;
+}
+.tone-blue {
+  --c1: #5aa8ff;
+  --c2: #1f62d8;
+}
+.tone-green {
+  --c1: #7ee04a;
+  --c2: #2f9e1e;
+}
+.tone-pink {
+  --c1: #ff7cbc;
+  --c2: #e2267f;
+}
+.tone-wood {
+  --c1: #e2a866;
+  --c2: #a7652c;
+}
+.is-pulsing {
+  animation: pulse-ring 1.3s ease-out infinite;
+}
+
+.pill-btn {
+  --c1: #7ee04a;
+  --c2: #2f9e1e;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: var(--tap-lg);
+  padding: 0.3em 1.3em 0.3em 0.6em;
+  border-radius: var(--r-pill);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+  background: linear-gradient(180deg, var(--c1), var(--c2));
+  border: 5px solid #fff3b8;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.18), 0 12px 24px rgba(30, 80, 10, 0.35), inset 0 -7px 0 rgba(0, 0, 0, 0.14);
+}
+.pill-btn__icon {
+  display: grid;
+  place-items: center;
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0.22em;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ---------- Star pill ---------- */
+.star-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4%;
+  padding: 0.25em 0.55em;
+  border-radius: var(--r-pill);
+  background: linear-gradient(180deg, #4b3f86, #2d2560);
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-sm);
+}
+.star-pill__star {
+  display: block;
+  width: 1.6em;
+  height: 1.6em;
+}
+
+/* ---------- Speaking card ---------- */
+.speak-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  padding: clamp(14px, 2.4vw, 26px);
+  background: linear-gradient(180deg, #fffdf6, #fff2d8);
+  border: 5px solid #ffd27a;
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+  max-width: min(92vw, 760px);
+}
+.speak-card__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.speak-card__picture {
+  width: clamp(80px, 13vw, 140px);
+  flex: none;
+}
+.speak-card__picture img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.2));
+}
+.speak-card__bubble {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.speak-card__sentence {
+  margin: 0;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.speak-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.speak-card__mic {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.voice-meter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 46px;
+  opacity: 0.35;
+  transition: opacity 0.2s;
+}
+.voice-meter.is-on {
+  opacity: 1;
+}
+.voice-meter span {
+  width: 7px;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #ff7cbc, #8a3ff0);
+  transform-origin: center;
+  transition: transform 0.06s linear;
+}
+.voice-meter.is-heard span {
+  background: linear-gradient(180deg, #7ee04a, #2f9e1e);
+}
+
+/* ---------- Parent button with hold ring ---------- */
+.parent-btn__ring {
+  position: absolute;
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+.parent-btn__ring circle {
+  fill: none;
+  stroke: #ffd23f;
+  stroke-width: 3;
+  stroke-dasharray: 101;
+  stroke-dashoffset: 101;
+  stroke-linecap: round;
+}
+.parent-btn.is-holding .parent-btn__ring circle {
+  transition: stroke-dashoffset 1.2s linear;
+  stroke-dashoffset: 0;
+}
+
+/* ---------- Modals ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(30, 14, 70, 0.45);
+  backdrop-filter: blur(3px);
+}
+.parent-panel {
+  width: min(560px, 100%);
+  max-height: 90dvh;
+  overflow: auto;
+  padding: 22px 24px;
+  border-radius: var(--r-lg);
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  user-select: text;
+  -webkit-user-select: text;
+}
+.parent-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.parent-panel h2 {
+  margin: 0;
+  font-size: var(--fs-lg);
+  color: var(--purple-dark);
+}
+.parent-panel__game {
+  margin: 14px 0 6px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: #f3ecff;
+  font-weight: 500;
+}
+.parent-panel__tips {
+  margin: 12px 0;
+  padding-left: 1.2em;
+  line-height: 1.45;
+  font-size: var(--fs-sm);
+}
+.parent-panel__settings {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 2px dashed #e4dcf6;
+}
+.parent-panel__warn {
+  margin: 0;
+  color: var(--orange-dark);
+  font-size: var(--fs-sm);
+}
+.parent-panel__confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.switch {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+.switch input {
+  width: 26px;
+  height: 26px;
+  accent-color: var(--purple);
+}
+.text-btn {
+  align-self: flex-start;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  background: #efe8ff;
+  color: var(--purple-dark);
+  font-weight: 600;
+}
+.text-btn.danger {
+  background: #ffe1e1;
+  color: var(--red-dark);
+}
+
+/* ---------- Celebration ---------- */
+.celebrate .confetti {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+}
+.celebrate .confetti span {
+  position: absolute;
+  margin: -14px;
+}
+.celebrate__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 28px 40px;
+  border-radius: var(--r-xl);
+  background: linear-gradient(180deg, #fffdf6, #ffeec8);
+  border: 6px solid #ffd27a;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.celebrate__card h2 {
+  margin: 0;
+  font-size: var(--fs-xl);
+  color: var(--purple-dark);
+}
+.celebrate__stars {
+  font-size: clamp(22px, 4vw, 36px);
+}
+.celebrate__actions {
+  display: flex;
+  gap: 24px;
+}
+
+/* pill colour variants (after the .pill-btn defaults so they win) */
+.pill-btn.tone-pink {
+  --c1: #ff7cbc;
+  --c2: #e2267f;
+}
+.pill-btn.tone-blue {
+  --c1: #5aa8ff;
+  --c2: #1f62d8;
+}
+.pill-btn.tone-orange {
+  --c1: #ffab3d;
+  --c2: #f06a0f;
+}
+.pill-btn.tone-purple {
+  --c1: #b97bff;
+  --c2: #7a2fe0;
+}
+.pill-btn__text {
+  white-space: nowrap;
+}
