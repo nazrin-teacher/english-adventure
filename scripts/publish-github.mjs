@@ -94,8 +94,13 @@ writeFileSync('dist/.nojekyll', '');
 await commitFolder('dist', listFiles('dist'), 'gh-pages', `Website: ${message}`);
 
 // Turn on GitHub Pages from the gh-pages branch (no-op if already on).
+// (GitHub may switch Pages on by itself as soon as a gh-pages branch appears → 409 is fine.)
 const pages = await gh('/pages');
-if (!pages.ok) await must('/pages', 'POST', { source: { branch: 'gh-pages', path: '/' } });
-else if (pages.data.source?.branch !== 'gh-pages') await must('/pages', 'PUT', { source: { branch: 'gh-pages', path: '/' } });
+if (!pages.ok) {
+  const r = await gh('/pages', 'POST', { source: { branch: 'gh-pages', path: '/' } });
+  if (!r.ok && r.status !== 409) throw new Error(`enable Pages → ${r.status} ${JSON.stringify(r.data).slice(0, 300)}`);
+}
+const current = await must('/pages');
+if (current.source?.branch !== 'gh-pages') await must('/pages', 'PUT', { source: { branch: 'gh-pages', path: '/' } });
 const info = await must('/pages');
 console.log('Pages:', info.html_url, '(status:', info.status ?? 'queued', ')');
